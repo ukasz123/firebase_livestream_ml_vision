@@ -53,6 +53,7 @@ class TextRecognizer {
 class VisionText {
   VisionText._(Map<String, dynamic> data)
       : text = data['text'],
+        size = data['size'] != null ? Size(data['size']['width'], data['size']['height']): null,
         blocks = List<TextBlock>.unmodifiable(data['blocks']
             .map<TextBlock>((dynamic block) => TextBlock._(block)));
 
@@ -61,6 +62,9 @@ class VisionText {
 
   /// All recognized text broken down into individual blocks/paragraphs.
   final List<TextBlock> blocks;
+  
+  /// Image size. Nullable.
+  final Size size;
 }
 
 /// Detected language from text recognition.

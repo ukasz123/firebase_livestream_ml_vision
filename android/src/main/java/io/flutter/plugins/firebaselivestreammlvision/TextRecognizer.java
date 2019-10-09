@@ -37,6 +37,9 @@ public class TextRecognizer implements Detector {
 
   @Override
   public void handleDetection(final FirebaseVisionImage image, final EventChannel.EventSink result, final AtomicBoolean throttle) {
+    final Map<String, Double> size = new HashMap<>();
+    size.put("width", (double) image.getBitmap().getWidth());
+    size.put("height", (double) image.getBitmap().getHeight());
     recognizer
         .processImage(image)
         .addOnSuccessListener(
@@ -45,6 +48,7 @@ public class TextRecognizer implements Detector {
               public void onSuccess(FirebaseVisionText firebaseVisionText) {
                 Map<String, Object> visionTextData = new HashMap<>();
                 visionTextData.put("text", firebaseVisionText.getText());
+                visionTextData.put("size", size);
 
                 List<Map<String, Object>> allBlockData = new ArrayList<>();
                 for (FirebaseVisionText.TextBlock block : firebaseVisionText.getTextBlocks()) {
